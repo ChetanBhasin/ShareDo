@@ -24,7 +24,9 @@ object Entry extends SimpleSwingApplication {
       case ButtonClicked(_) =>
         println("The send button is clicked now")
         chooser.showOpenDialog(grid)
-        new Server(chooser.selectedFile)
+        val server = new netpro.SimpleHttpServer
+        server.makeServer(chooser.selectedFile.getAbsolutePath, chooser.selectedFile.getName)
+        sendButton.visible = false
         lable.text = "Now: Sending file " + chooser.selectedFile.getName
     }
     layout(sendButton) = c
@@ -35,7 +37,7 @@ object Entry extends SimpleSwingApplication {
       case ButtonClicked(_) =>
         println("The get button was clicked here")
         lable.text = "Now: Downloading a file"
-        Grabber.getFile
+        Grabber.getFile(lable)
     }
     layout(getButton) = c
   }
